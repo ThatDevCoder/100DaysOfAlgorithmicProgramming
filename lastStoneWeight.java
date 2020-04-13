@@ -35,7 +35,8 @@ class Solution {
         return maxHeap.isEmpty()? 0:-maxHeap.remove();
     }
 }
-## NOW NO NEED TO USE NEGATIVE SIGN
+//----------------------------------SOLUTION 2 -----------------------------------------------------------
+//NOW NO NEED TO USE NEGATIVE SIGN
 class Solution {
     public int lastStoneWeight(int[] stones) {
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
