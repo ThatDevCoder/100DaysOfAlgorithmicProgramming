@@ -1,26 +1,18 @@
-Code:
-public class ListNode {
-      int val;
-      ListNode next;
-     ListNode(int x) { val = x; }
-
-
+// Code:
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        if(lists==null||lists.length==0) return null;
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        for(ListNode head : lists)
-            while(head!=null)
-            {
+        for(ListNode head: lists){
+            while(head!=null){
                 minHeap.add(head.val);
                 head = head.next;
             }
-        ListNode dummy = new ListNode(-1);
-        ListNode head = dummy;
-        while(!minHeap.isEmpty())
-        {
-            head.next = new ListNode(minHeap.remove());
-            head = head.next;
+        }
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        while(!minHeap.isEmpty()){
+            tail.next =new ListNode(minHeap.poll());
+            tail = tail.next;
         }
         return dummy.next;
     }
