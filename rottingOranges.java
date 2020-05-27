@@ -1,0 +1,80 @@
+// class Solution {
+//     public int orangesRotting(int[][] grid) {
+//         Set<String> fresh = new HashSet<>();
+//         Set<String> rotten = new HashSet<>();
+//         for(int i=0;i<grid.length;i++){
+//             for(int j=0; j<grid[i].length;j++){
+//                 if(grid[i][j]==1){
+//                     fresh.add(""+i+j);
+//                 } else if(grid[i][j]==2){
+//                 rotten.add(""+i+j);
+//             }
+//         }
+//         }
+//         int minutes = 0;
+//         int directions[][] = {{0,1},{1,0},{0,-1},{-1,0}};
+//         while(fresh.size()>0){
+//             Set<String> infected = new HashSet<>();
+//             for(String s: rotten){
+//                 int i = s.charAt(0)-'0';
+//                 int j = s.charAt(1)-'0';
+//                 for(int direction[]:directions){
+//                     int nextI = direction[0];
+//                     int nextJ = direction[1];
+//                     if(fresh.contains(""+nextI+nextJ)){
+//                         fresh.remove(""+nextI+nextJ);
+//                         infected.add(""+nextI+nextJ);
+//                     }
+//                 }
+//             }
+//             if(infected.size()==0)
+//                 return -1;
+//             rotten = infected;
+//             minutes++;
+//         }
+//         return minutes;
+//     }
+// }
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int rows = grid.length;
+        int columns = grid[0].length;
+        int freshOranges = 0;
+        Queue<int[]> queue = new LinkedList<>();
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[]{i, j});   
+                }
+                if (grid[i][j] == 1) {
+                    freshOranges++;   
+                }
+            }
+        }
+        int days = 0;
+        int[][] directions = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        while (!queue.isEmpty() && freshOranges > 0) {    
+            int queueSize = queue.size();
+            for (int i = 0; i < queueSize; i++) {
+                int[] node = queue.poll();
+                for (int[] dir : directions) {
+                    int x = node[0] + dir[0];
+                    int y = node[1] + dir[1];
+
+                    if (x < 0 || y < 0 || x >= rows || y >= columns || grid[x][y] == 0 || grid[x][y] == 2) {   
+                        continue;
+                    }
+                    grid[x][y] = 2;
+                    queue.offer(new int[]{x, y});
+                    freshOranges--;
+                }
+            }
+            days++;
+        }
+        return freshOranges == 0 ? days : -1; 
+    }
+}
